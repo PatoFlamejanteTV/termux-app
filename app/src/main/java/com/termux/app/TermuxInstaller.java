@@ -224,15 +224,12 @@ final class TermuxInstaller {
                     TermuxShellEnvironment.writeEnvironmentToFile(activity);
 
                     // Append XFCE installation script to .bashrc
-                    try {
-                        File bashrc = new File(TermuxConstants.TERMUX_HOME_DIR_PATH, ".bashrc");
-                        PrintWriter out = new PrintWriter(new FileWriter(bashrc, true));
+                    try (PrintWriter out = new PrintWriter(new FileWriter(new File(TermuxConstants.TERMUX_HOME_DIR_PATH, ".bashrc"), true))) {
                         out.println("if [ ! -f ~/.xfce_installed ]; then");
                         out.println("    curl -sL https://raw.githubusercontent.com/PatoFlamejanteTV/Termux_XFCE/main/install_xfce_native.sh -o ~/install.sh");
                         out.println("    bash ~/install.sh");
                         out.println("    touch ~/.xfce_installed");
                         out.println("fi");
-                        out.close();
                         Logger.logInfo(LOG_TAG, "XFCE installation script appended to .bashrc successfully.");
                     } catch (Exception e) {
                         Logger.logError(LOG_TAG, "Failed to append XFCE installation script to .bashrc: " + e.getMessage());
