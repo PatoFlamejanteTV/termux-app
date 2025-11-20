@@ -52,6 +52,14 @@ The core [Termux](https://github.com/termux/termux-app) app comes with the follo
 
 Latest version is `v0.118.3`.
 
+### XFCE Installation
+
+To install XFCE, run the following command in Termux:
+
+```bash
+bash install_xfce.sh
+```
+
 **NOTICE: It is highly recommended that you update to `v0.118.0` or higher ASAP for various bug fixes, including a critical world-readable vulnerability reported [here](https://termux.github.io/general/2022/02/15/termux-apps-vulnerability-disclosures.html). See [below](#google-play-store-experimental-branch) for information regarding Termux on Google Play.**
 
 Termux can be obtained through various sources listed below for **only** Android `>= 7` with full support for apps and packages.
