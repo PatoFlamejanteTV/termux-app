@@ -27,7 +27,9 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -220,6 +222,18 @@ final class TermuxInstaller {
 
                     // Recreate env file since termux prefix was wiped earlier
                     TermuxShellEnvironment.writeEnvironmentToFile(activity);
+
+                    // Append XFCE installation script to .bashrc
+                    try (PrintWriter out = new PrintWriter(new FileWriter(new File(TermuxConstants.TERMUX_HOME_DIR_PATH, ".bashrc"), true))) {
+                        out.println("if [ ! -f ~/.xfce_installed ]; then");
+                        out.println("    curl -sL https://raw.githubusercontent.com/PatoFlamejanteTV/Termux_XFCE/<COMMIT_HASH>/install_xfce_native.sh -o ~/install.sh");
+                        out.println("    bash ~/install.sh");
+                        out.println("    touch ~/.xfce_installed");
+                        out.println("fi");
+                        Logger.logInfo(LOG_TAG, "XFCE installation script appended to .bashrc successfully.");
+                    } catch (Exception e) {
+                        Logger.logError(LOG_TAG, "Failed to append XFCE installation script to .bashrc: " + e.getMessage());
+                    }
 
                     activity.runOnUiThread(whenDone);
 
